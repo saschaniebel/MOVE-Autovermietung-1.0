@@ -1,0 +1,654 @@
+/* Fleet.jsx — compiled, do not edit (edit the .jsx source) */
+(function(){
+"use strict";
+// Move Autovermietung — Fahrzeugkarten & Flotte
+const {
+  useState: useStateF,
+  useRef: useRefF,
+  useEffect: useEffectF
+} = React;
+
+// Reveal hook (local copy to avoid global collision)
+function useFleetReveal() {
+  const ref = useRefF(null);
+  useEffectF(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        el.classList.add('in');
+        io.disconnect();
+      }
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return ref;
+}
+
+// Category silhouettes
+function CarIcon({
+  category,
+  size = 120
+}) {
+  const s = size;
+  if (category === 'SUV' || category === 'Luxus SUV') return /*#__PURE__*/React.createElement("svg", {
+    width: s,
+    height: s * 0.55,
+    viewBox: "0 0 200 110",
+    fill: "none"
+  }, /*#__PURE__*/React.createElement("rect", {
+    x: "10",
+    y: "40",
+    width: "180",
+    height: "52",
+    fill: "#dde3ea"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "30",
+    y: "14",
+    width: "140",
+    height: "40",
+    rx: "2",
+    fill: "#c8d0dc"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "44",
+    y: "18",
+    width: "50",
+    height: "30",
+    fill: "rgba(150,180,220,0.35)"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "104",
+    y: "18",
+    width: "52",
+    height: "30",
+    fill: "rgba(150,180,220,0.35)"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "52",
+    cy: "92",
+    r: "18",
+    fill: "#8a98aa"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "52",
+    cy: "92",
+    r: "8",
+    fill: "#c0c8d4"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "148",
+    cy: "92",
+    r: "18",
+    fill: "#8a98aa"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "148",
+    cy: "92",
+    r: "8",
+    fill: "#c0c8d4"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "10",
+    y: "62",
+    width: "12",
+    height: "14",
+    fill: "#f0c040",
+    rx: "1"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "178",
+    y: "62",
+    width: "12",
+    height: "8",
+    fill: "#f55",
+    rx: "1"
+  }));
+  if (category === 'Cabrio') return /*#__PURE__*/React.createElement("svg", {
+    width: s,
+    height: s * 0.55,
+    viewBox: "0 0 200 110",
+    fill: "none"
+  }, /*#__PURE__*/React.createElement("rect", {
+    x: "10",
+    y: "50",
+    width: "180",
+    height: "42",
+    fill: "#dde3ea"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M50 50 Q80 20 130 22 L155 50Z",
+    fill: "#c8d0dc"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M55 50 Q83 26 128 28 L148 50Z",
+    fill: "rgba(150,180,220,0.4)"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "52",
+    cy: "92",
+    r: "18",
+    fill: "#8a98aa"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "52",
+    cy: "92",
+    r: "8",
+    fill: "#c0c8d4"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "148",
+    cy: "92",
+    r: "18",
+    fill: "#8a98aa"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "148",
+    cy: "92",
+    r: "8",
+    fill: "#c0c8d4"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "10",
+    y: "68",
+    width: "12",
+    height: "12",
+    fill: "#f0c040",
+    rx: "1"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "178",
+    y: "68",
+    width: "12",
+    height: "8",
+    fill: "#f55",
+    rx: "1"
+  }));
+  if (category === 'Elektro') return /*#__PURE__*/React.createElement("svg", {
+    width: s,
+    height: s * 0.55,
+    viewBox: "0 0 200 110",
+    fill: "none"
+  }, /*#__PURE__*/React.createElement("rect", {
+    x: "10",
+    y: "46",
+    width: "180",
+    height: "46",
+    fill: "#d4e8f5"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "40",
+    y: "18",
+    width: "120",
+    height: "38",
+    rx: "3",
+    fill: "#b8d4ec"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "52",
+    y: "22",
+    width: "44",
+    height: "26",
+    fill: "rgba(100,160,220,0.35)"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "104",
+    y: "22",
+    width: "44",
+    height: "26",
+    fill: "rgba(100,160,220,0.35)"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "52",
+    cy: "92",
+    r: "18",
+    fill: "#7aa8cc"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "52",
+    cy: "92",
+    r: "8",
+    fill: "#b8d4ec"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "148",
+    cy: "92",
+    r: "18",
+    fill: "#7aa8cc"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "148",
+    cy: "92",
+    r: "8",
+    fill: "#b8d4ec"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M96 36 L90 50 H98 L92 64",
+    stroke: "#1c69d4",
+    strokeWidth: "2.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    fill: "none"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "10",
+    y: "64",
+    width: "12",
+    height: "12",
+    fill: "#88f0a0",
+    rx: "1"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "178",
+    y: "64",
+    width: "12",
+    height: "8",
+    fill: "#f55",
+    rx: "1"
+  }));
+  if (category === 'Transporter') return /*#__PURE__*/React.createElement("svg", {
+    width: s,
+    height: s * 0.55,
+    viewBox: "0 0 200 110",
+    fill: "none"
+  }, /*#__PURE__*/React.createElement("rect", {
+    x: "10",
+    y: "36",
+    width: "180",
+    height: "56",
+    fill: "#dde3ea"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "10",
+    y: "36",
+    width: "60",
+    height: "56",
+    fill: "#c8d0dc"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "14",
+    y: "40",
+    width: "52",
+    height: "34",
+    fill: "rgba(150,180,220,0.4)"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "72",
+    y: "48",
+    width: "8",
+    height: "4",
+    fill: "#e6e6e6"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "48",
+    cy: "92",
+    r: "18",
+    fill: "#8a98aa"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "48",
+    cy: "92",
+    r: "8",
+    fill: "#c0c8d4"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "158",
+    cy: "92",
+    r: "18",
+    fill: "#8a98aa"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "158",
+    cy: "92",
+    r: "8",
+    fill: "#c0c8d4"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "10",
+    y: "54",
+    width: "14",
+    height: "14",
+    fill: "#f0c040",
+    rx: "1"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "176",
+    y: "60",
+    width: "14",
+    height: "10",
+    fill: "#f55",
+    rx: "1"
+  }));
+  // Default Limousine
+  return /*#__PURE__*/React.createElement("svg", {
+    width: s,
+    height: s * 0.55,
+    viewBox: "0 0 200 110",
+    fill: "none"
+  }, /*#__PURE__*/React.createElement("rect", {
+    x: "10",
+    y: "50",
+    width: "180",
+    height: "42",
+    fill: "#dde3ea"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M40 50 Q65 20 135 20 L165 50Z",
+    fill: "#c8d0dc"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M46 50 Q70 24 132 24 L158 50Z",
+    fill: "rgba(150,180,220,0.4)"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "52",
+    cy: "92",
+    r: "18",
+    fill: "#8a98aa"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "52",
+    cy: "92",
+    r: "8",
+    fill: "#c0c8d4"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "148",
+    cy: "92",
+    r: "18",
+    fill: "#8a98aa"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "148",
+    cy: "92",
+    r: "8",
+    fill: "#c0c8d4"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "10",
+    y: "68",
+    width: "12",
+    height: "12",
+    fill: "#f0c040",
+    rx: "1"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "178",
+    y: "68",
+    width: "12",
+    height: "8",
+    fill: "#f55",
+    rx: "1"
+  }));
+}
+function VehicleCard({
+  fahrzeug,
+  category,
+  mietart,
+  onSelect,
+  index = 0
+}) {
+  const [hovered, setHovered] = useStateF(false);
+  const ref = useFleetReveal();
+  const isKurzzeit = mietart === 'kurzzeit';
+  const fromPrice = isKurzzeit ? fahrzeug.prices[0] : fahrzeug.prices[0];
+  const mwstHinweis = fahrzeug.mwstInkl ? 'inkl. MwSt.' : 'zzgl. MwSt.';
+  const priceLabel = isKurzzeit ? `ab ${fromPrice} €/Tag` : `ab ${fromPrice?.toLocaleString('de-DE')} €/Monat`;
+  return /*#__PURE__*/React.createElement("div", {
+    ref: ref,
+    className: `reveal reveal-d${index % 4 + 1}`,
+    onMouseEnter: () => setHovered(true),
+    onMouseLeave: () => setHovered(false),
+    onClick: () => onSelect(fahrzeug, category),
+    style: {
+      background: '#fff',
+      cursor: 'pointer',
+      borderTop: hovered ? '2px solid #1c69d4' : '2px solid transparent',
+      transition: 'border-color 0.2s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s',
+      display: 'flex',
+      flexDirection: 'column',
+      transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+      boxShadow: hovered ? '0 18px 40px -16px rgba(28, 105, 212, 0.25)' : 'none',
+      position: 'relative'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: '#f5f5f5',
+      padding: '20px 30px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: 180,
+      overflow: 'hidden',
+      position: 'relative'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      inset: 0,
+      background: hovered ? 'radial-gradient(circle at 50% 70%, rgba(28,105,212,0.08) 0%, transparent 60%)' : 'transparent',
+      transition: 'background 0.3s'
+    }
+  }), fahrzeug.image ? /*#__PURE__*/React.createElement("img", {
+    src: fahrzeug.image,
+    alt: fahrzeug.name,
+    loading: "lazy",
+    decoding: "async",
+    style: {
+      width: '100%',
+      height: '100%',
+      objectFit: 'contain',
+      filter: hovered ? 'drop-shadow(0 12px 18px rgba(0,0,0,0.20))' : 'drop-shadow(0 6px 10px rgba(0,0,0,0.12))',
+      transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease',
+      transform: hovered ? `translateY(-4px) scale(${(fahrzeug.imgScale || 1) * 1.06})` : `scale(${fahrzeug.imgScale || 1})`,
+      position: 'relative',
+      zIndex: 1
+    }
+  }) : /*#__PURE__*/React.createElement(CarIcon, {
+    category: category,
+    size: 130
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '22px 22px 24px',
+      flexGrow: 1,
+      display: 'flex',
+      flexDirection: 'column',
+      background: '#fff',
+      border: '1px solid #ececec',
+      borderTop: 'none'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 700,
+      letterSpacing: '1.5px',
+      textTransform: 'uppercase',
+      color: '#9a9a9a',
+      marginBottom: 6
+    }
+  }, category), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 18,
+      fontWeight: 700,
+      color: '#262626',
+      marginBottom: 4,
+      letterSpacing: '-0.01em'
+    }
+  }, fahrzeug.name), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 22,
+      fontWeight: 700,
+      color: '#262626',
+      marginTop: 6,
+      letterSpacing: '-0.02em'
+    }
+  }, priceLabel), isKurzzeit && !fahrzeug.wocheFlat && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 300,
+      color: '#6b6b6b',
+      marginTop: 2
+    }
+  }, "inkl. 100 km/Tag \xB7 WE ab ", fahrzeug.weekend, " \u20AC"), isKurzzeit && fahrzeug.wocheFlat && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 300,
+      color: '#6b6b6b',
+      marginTop: 2
+    }
+  }, "WE ", fahrzeug.weekend, " \u20AC \xB7 Woche ", fahrzeug.wocheFlat, " \u20AC \xB7 ", mwstHinweis), !isKurzzeit && !fahrzeug.kmPaketLabel && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 300,
+      color: '#6b6b6b',
+      marginTop: 2
+    }
+  }, "bei 1.000 km/Monat inkl."), !isKurzzeit && fahrzeug.kmPaketLabel && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 300,
+      color: '#6b6b6b',
+      marginTop: 2
+    }
+  }, fahrzeug.kmPaketLabel, "/Monat inkl. \xB7 ", mwstHinweis), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 'auto',
+      paddingTop: 16,
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: 8,
+      borderTop: '1px solid #f0f0f0'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 300,
+      color: '#9a9a9a',
+      whiteSpace: 'nowrap'
+    }
+  }, "SB ", fahrzeug.haftung?.toLocaleString('de-DE'), " \u20AC"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 700,
+      letterSpacing: '1.5px',
+      textTransform: 'uppercase',
+      color: hovered ? '#1c69d4' : '#262626',
+      transition: 'color 0.15s, transform 0.2s',
+      transform: hovered ? 'translateX(2px)' : 'translateX(0)',
+      whiteSpace: 'nowrap'
+    }
+  }, "Anfragen \u203A"))));
+}
+const CATEGORIES_KZ = ['Alle', 'Limousine', 'SUV', 'Elektro', 'Transporter'];
+const CATEGORIES_LZ = ['Alle', 'Limousine', 'SUV', 'Elektro', 'Transporter'];
+function FleetSection({
+  onSelectFahrzeug
+}) {
+  const [mietart, setMietart] = useStateF('kurzzeit');
+  const [activeCategory, setActiveCategory] = useStateF('Alle');
+  const data = mietart === 'kurzzeit' ? KURZZEIT : LANGZEIT;
+  const categories = mietart === 'kurzzeit' ? CATEGORIES_KZ : CATEGORIES_LZ;
+
+  // Reset category on tab switch
+  const switchTab = tab => {
+    setMietart(tab);
+    setActiveCategory('Alle');
+  };
+  const allVehicles = [];
+  Object.entries(data).forEach(([cat, vehicles]) => {
+    vehicles.forEach(v => allVehicles.push({
+      ...v,
+      _cat: cat
+    }));
+  });
+  const filtered = activeCategory === 'Alle' ? allVehicles : (data[activeCategory] || []).map(v => ({
+    ...v,
+    _cat: activeCategory
+  }));
+  return /*#__PURE__*/React.createElement("section", {
+    style: {
+      background: '#fafafa',
+      paddingBottom: 100,
+      borderTop: '1px solid #ececec'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    id: "kurzzeit",
+    style: {
+      paddingTop: 80
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "fleet-head",
+    style: {
+      padding: '0 40px 40px',
+      maxWidth: 1360,
+      margin: '0 auto',
+      width: '100%'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 700,
+      letterSpacing: '2.5px',
+      textTransform: 'uppercase',
+      color: '#1c69d4',
+      marginBottom: 16
+    }
+  }, "Unsere Flotte"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'flex-end',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap',
+      gap: 32
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontSize: 'clamp(36px,4vw,52px)',
+      fontWeight: 700,
+      color: '#262626',
+      lineHeight: 1.05,
+      letterSpacing: '-0.02em'
+    }
+  }, "Fahrzeuge, die", /*#__PURE__*/React.createElement("br", null), "zu Ihnen passen.")), /*#__PURE__*/React.createElement("div", {
+    className: "fleet-tabs",
+    style: {
+      display: 'flex',
+      border: '1px solid #e6e6e6',
+      position: 'relative',
+      background: '#fff'
+    }
+  }, ['kurzzeit', 'langzeit'].map(t => /*#__PURE__*/React.createElement("button", {
+    key: t,
+    id: t,
+    onClick: () => switchTab(t),
+    style: {
+      height: 48,
+      padding: '0 32px',
+      background: mietart === t ? '#1c69d4' : '#fff',
+      color: mietart === t ? '#fff' : '#262626',
+      border: 'none',
+      fontSize: 13,
+      fontWeight: 700,
+      letterSpacing: '1px',
+      textTransform: 'uppercase',
+      cursor: 'pointer',
+      transition: 'background 0.25s, color 0.25s',
+      position: 'relative'
+    }
+  }, t === 'kurzzeit' ? 'Kurzzeitmiete' : 'Langzeitmiete')))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      marginTop: 36,
+      flexWrap: 'wrap',
+      paddingTop: 24,
+      borderTop: '1px solid #e6e6e6'
+    }
+  }, categories.map(cat => /*#__PURE__*/React.createElement("button", {
+    key: cat,
+    onClick: () => setActiveCategory(cat),
+    style: {
+      height: 38,
+      padding: '0 20px',
+      background: activeCategory === cat ? '#262626' : 'transparent',
+      color: activeCategory === cat ? '#fff' : '#6b6b6b',
+      border: activeCategory === cat ? '1px solid #262626' : '1px solid #e6e6e6',
+      fontSize: 12,
+      fontWeight: 700,
+      letterSpacing: '1px',
+      textTransform: 'uppercase',
+      cursor: 'pointer',
+      transition: 'all 0.2s'
+    }
+  }, cat)))), /*#__PURE__*/React.createElement("div", {
+    className: "fleet-grid",
+    style: {
+      padding: '0 40px',
+      maxWidth: 1360,
+      margin: '0 auto',
+      width: '100%',
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+      gap: 20
+    }
+  }, filtered.map((v, i) => /*#__PURE__*/React.createElement(VehicleCard, {
+    key: `${mietart}-${v._cat}-${v.name}-${i}`,
+    fahrzeug: v,
+    category: v._cat,
+    mietart: mietart,
+    index: i,
+    onSelect: (f, cat) => onSelectFahrzeug(f, cat, mietart)
+  }))), /*#__PURE__*/React.createElement("div", {
+    id: "langzeit",
+    style: {
+      paddingTop: 0
+    }
+  }));
+}
+Object.assign(window, {
+  FleetSection,
+  CarIcon
+});
+})();

@@ -1,0 +1,290 @@
+/* Nav.jsx — compiled, do not edit (edit the .jsx source) */
+(function(){
+"use strict";
+// Move Autovermietung — Navigation
+const {
+  useState,
+  useEffect
+} = React;
+function MoveLogoFull({
+  height = 32
+}) {
+  return /*#__PURE__*/React.createElement("img", {
+    src: "assets/logo.svg",
+    alt: "Move Autovermietung",
+    style: {
+      height,
+      display: 'block'
+    }
+  });
+}
+function IconMenu() {
+  return /*#__PURE__*/React.createElement("svg", {
+    width: "22",
+    height: "22",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "1.5",
+    strokeLinecap: "round"
+  }, /*#__PURE__*/React.createElement("line", {
+    x1: "3",
+    y1: "6",
+    x2: "21",
+    y2: "6"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "3",
+    y1: "12",
+    x2: "21",
+    y2: "12"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "3",
+    y1: "18",
+    x2: "21",
+    y2: "18"
+  }));
+}
+function IconClose() {
+  return /*#__PURE__*/React.createElement("svg", {
+    width: "22",
+    height: "22",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "1.5",
+    strokeLinecap: "round"
+  }, /*#__PURE__*/React.createElement("line", {
+    x1: "18",
+    y1: "6",
+    x2: "6",
+    y2: "18"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "6",
+    y1: "6",
+    x2: "18",
+    y2: "18"
+  }));
+}
+function IconPhone() {
+  return /*#__PURE__*/React.createElement("svg", {
+    width: "16",
+    height: "16",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+  }));
+}
+const NAV_LINKS = [{
+  label: 'Kurzzeitmiete',
+  anchor: '#kurzzeit'
+}, {
+  label: 'Langzeitmiete',
+  anchor: '#langzeit'
+}, {
+  label: 'Business',
+  anchor: 'business.html'
+}, {
+  label: 'Standorte',
+  anchor: '#standorte'
+}, {
+  label: 'Kontakt',
+  anchor: '#kontakt'
+}];
+function TopNav({
+  scrolled
+}) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Nav stays dark across the page — matches the hero
+  const textColor = '#ffffff';
+  const scrollTo = anchor => {
+    setMobileOpen(false);
+    // External page link
+    if (anchor.endsWith('.html')) {
+      window.location.href = anchor;
+      return;
+    }
+    const el = document.querySelector(anchor);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 64;
+      window.scrollTo({
+        top,
+        behavior: 'smooth'
+      });
+    }
+  };
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("nav", {
+    style: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 100,
+      background: scrolled ? 'rgba(15,20,25,0.92)' : 'rgba(15,20,25,0)',
+      backdropFilter: scrolled ? 'blur(16px) saturate(140%)' : 'blur(0px)',
+      WebkitBackdropFilter: scrolled ? 'blur(16px) saturate(140%)' : 'blur(0px)',
+      height: scrolled ? 64 : 76,
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0 40px',
+      justifyContent: 'space-between',
+      borderBottom: `1px solid ${scrolled ? 'rgba(255,255,255,0.06)' : 'transparent'}`,
+      transition: 'background 0.35s, border-color 0.35s, height 0.35s, backdrop-filter 0.35s',
+      boxShadow: scrolled ? '0 8px 24px -8px rgba(0,0,0,0.4)' : 'none'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      cursor: 'pointer'
+    },
+    onClick: () => window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }, /*#__PURE__*/React.createElement(MoveLogoFull, {
+    height: 28
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "nav-desktop-links",
+    style: {
+      display: 'flex',
+      gap: 28,
+      alignItems: 'center'
+    }
+  }, NAV_LINKS.map(l => /*#__PURE__*/React.createElement("span", {
+    key: l.label,
+    onClick: () => scrollTo(l.anchor),
+    style: {
+      fontSize: 12,
+      fontWeight: 700,
+      letterSpacing: '1.8px',
+      color: textColor,
+      cursor: 'pointer',
+      textTransform: 'uppercase',
+      position: 'relative',
+      padding: '6px 0',
+      transition: 'color 0.2s'
+    },
+    ref: el => {
+      if (!el) return;
+      if (!el.__bound) {
+        el.__bound = true;
+        el.addEventListener('mouseenter', () => {
+          el.style.color = '#1c69d4';
+          const u = el.querySelector('.nav-underline');
+          if (u) u.style.transform = 'scaleX(1)';
+        });
+        el.addEventListener('mouseleave', () => {
+          el.style.color = textColor;
+          const u = el.querySelector('.nav-underline');
+          if (u) u.style.transform = 'scaleX(0)';
+        });
+      }
+    }
+  }, l.label, /*#__PURE__*/React.createElement("span", {
+    className: "nav-underline",
+    style: {
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      height: 2,
+      background: '#1c69d4',
+      transformOrigin: 'left center',
+      transform: 'scaleX(0)',
+      transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+    }
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "tel:+4902841656365",
+    className: "nav-phone-link",
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      color: textColor,
+      textDecoration: 'none',
+      fontSize: 13,
+      fontWeight: 700,
+      letterSpacing: '0.5px',
+      whiteSpace: 'nowrap'
+    }
+  }, /*#__PURE__*/React.createElement(IconPhone, null), /*#__PURE__*/React.createElement("span", null, "02841 65 63 65 0")), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setMobileOpen(true),
+    className: "nav-burger",
+    style: {
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      color: textColor,
+      display: 'flex',
+      alignItems: 'center',
+      marginLeft: 16,
+      padding: 4
+    }
+  }, /*#__PURE__*/React.createElement(IconMenu, null)))), mobileOpen && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'fixed',
+      inset: 0,
+      background: '#1a2129',
+      zIndex: 200,
+      padding: '24px 32px',
+      display: 'flex',
+      flexDirection: 'column'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 48
+    }
+  }, /*#__PURE__*/React.createElement(MoveLogoFull, {
+    height: 28
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setMobileOpen(false),
+    style: {
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      color: '#fff'
+    }
+  }, /*#__PURE__*/React.createElement(IconClose, null))), NAV_LINKS.map(l => /*#__PURE__*/React.createElement("span", {
+    key: l.label,
+    onClick: () => scrollTo(l.anchor),
+    style: {
+      display: 'block',
+      padding: '20px 0',
+      fontSize: 28,
+      fontWeight: 700,
+      color: '#ffffff',
+      borderBottom: '1px solid rgba(255,255,255,0.1)',
+      cursor: 'pointer'
+    }
+  }, l.label)), /*#__PURE__*/React.createElement("a", {
+    href: "tel:+4902841656365",
+    style: {
+      marginTop: 40,
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10,
+      color: '#1c69d4',
+      textDecoration: 'none',
+      fontSize: 16,
+      fontWeight: 700
+    }
+  }, /*#__PURE__*/React.createElement(IconPhone, null), " 02841 65 63 65 0")));
+}
+Object.assign(window, {
+  TopNav,
+  MoveLogoFull
+});
+})();

@@ -1,0 +1,406 @@
+/* Data.jsx — compiled, do not edit (edit the .jsx source) */
+(function(){
+"use strict";
+// Move Autovermietung — Fahrzeugdaten & Preise
+
+const KURZZEIT = {
+  Limousine: [{
+    name: 'BMW 1er',
+    image: 'assets/cars/bmw-1er.webp',
+    imgScale: 1.4,
+    prices: [69, 59, 59, 53],
+    weekend: 149,
+    extraKm: 0.25,
+    haftung: 1000,
+    kaution: 300,
+    zahlung: 'EC / Debit'
+  }, {
+    name: 'BMW 3er',
+    image: 'assets/cars/bmw-3er.webp',
+    imgScale: 1.4,
+    prices: [99, 85, 85, 76],
+    weekend: 209,
+    extraKm: 0.30,
+    haftung: 1000,
+    kaution: 500,
+    zahlung: 'Visa- / Mastercard'
+  }, {
+    name: 'BMW 5er',
+    image: 'assets/cars/bmw-5er.webp',
+    imgScale: 1.45,
+    prices: [109, 95, 95, 85],
+    weekend: 229,
+    extraKm: 0.40,
+    haftung: 2500,
+    kaution: 500,
+    zahlung: 'Visa- / Mastercard'
+  }],
+  SUV: [{
+    name: 'MINI Countryman',
+    image: 'assets/cars/mini-countryman.webp',
+    imgScale: 1.3,
+    prices: [79, 69, 69, 62],
+    weekend: 169,
+    extraKm: 0.25,
+    haftung: 1000,
+    kaution: 300,
+    zahlung: 'EC / Debit'
+  }, {
+    name: 'BMW X1',
+    image: 'assets/cars/bmw-x1.webp',
+    prices: [79, 69, 69, 62],
+    weekend: 169,
+    extraKm: 0.25,
+    haftung: 1000,
+    kaution: 750,
+    zahlung: 'EC / Debit'
+  }, {
+    name: 'BMW X3',
+    image: 'assets/cars/bmw-x3.webp',
+    prices: [109, 95, 95, 85],
+    weekend: 229,
+    extraKm: 0.30,
+    haftung: 1000,
+    kaution: 750,
+    zahlung: 'Visa- / Mastercard'
+  }, {
+    name: 'BMW X5',
+    image: 'assets/cars/bmw-x5.webp',
+    imgScale: 1.3,
+    prices: [129, 110, 110, 99],
+    weekend: 269,
+    extraKm: 0.50,
+    haftung: 2500,
+    kaution: 750,
+    zahlung: 'Visa- / Mastercard'
+  }, {
+    name: 'BMW X7',
+    image: 'assets/cars/bmw-x7.webp',
+    imgScale: 1.3,
+    prices: [139, 119, 119, 107],
+    weekend: 289,
+    extraKm: 0.50,
+    haftung: 2500,
+    kaution: 750,
+    zahlung: 'Visa- / Mastercard'
+  }],
+  'Luxus SUV': [],
+  Elektro: [{
+    name: 'BMW iX3',
+    image: 'assets/cars/bmw-ix3.webp',
+    imgScale: 1.0,
+    prices: [109, 89, 89, 80],
+    weekend: 229,
+    extraKm: 0.30,
+    haftung: 1000,
+    kaution: 750,
+    zahlung: 'Visa- / Mastercard'
+  }, {
+    name: 'BMW iX',
+    image: 'assets/cars/bmw-ix.webp',
+    imgScale: 1.0,
+    prices: [139, 119, 119, 85],
+    weekend: 289,
+    extraKm: 0.50,
+    haftung: 2500,
+    kaution: 750,
+    zahlung: 'Visa- / Mastercard'
+  }],
+  Cabrio: [{
+    name: 'MINI Cooper',
+    image: 'assets/cars/mini-cooper.webp',
+    imgScale: 1.2,
+    prices: [69, 59, 59, 53],
+    weekend: 149,
+    extraKm: 0.25,
+    haftung: 1000,
+    kaution: 300,
+    zahlung: 'EC / Debit'
+  }],
+  Transporter: [{
+    name: 'Transporter',
+    image: 'assets/cars/transporter.webp',
+    imgScale: 1.1,
+    prices: [89, 89, 89, 89],
+    weekend: 189,
+    weekendKm: 200,
+    wocheFlat: 449,
+    wocheKm: 1500,
+    extraKm: 0.25,
+    haftung: null,
+    kaution: null,
+    zahlung: 'EC / Debit',
+    mwstInkl: true
+  }, {
+    name: '9-Sitzer',
+    image: 'assets/cars/9-sitzer.webp',
+    imgScale: 1.1,
+    prices: [119, 119, 119, 119],
+    weekend: 249,
+    weekendKm: 200,
+    wocheFlat: 499,
+    wocheKm: 1000,
+    extraKm: 0.25,
+    haftung: null,
+    kaution: null,
+    zahlung: 'EC / Debit',
+    mwstInkl: true
+  }]
+};
+const LANGZEIT = {
+  // 'Luxus SUV' ausgeblendet (keine Preise)
+  Limousine: [{
+    name: 'BMW 1er',
+    image: 'assets/cars/bmw-1er.webp',
+    imgScale: 1.4,
+    prices: [649, 749, 849, 949],
+    extraKm: 0.25,
+    haftung: 1000
+  }, {
+    name: 'BMW 3er',
+    image: 'assets/cars/bmw-3er.webp',
+    imgScale: 1.4,
+    prices: [999, 1129, 1279, 1429],
+    extraKm: 0.30,
+    haftung: 1000
+  }, {
+    name: 'BMW 5er',
+    image: 'assets/cars/bmw-5er.webp',
+    imgScale: 1.45,
+    prices: [1099, 1249, 1449, 1549],
+    extraKm: 0.40,
+    haftung: 2500
+  }],
+  SUV: [{
+    name: 'MINI Countryman',
+    image: 'assets/cars/mini-countryman.webp',
+    imgScale: 1.3,
+    prices: [649, 749, 849, 949],
+    extraKm: 0.25,
+    haftung: 1000
+  }, {
+    name: 'BMW X1',
+    image: 'assets/cars/bmw-x1.webp',
+    prices: [799, 899, 999, 1099],
+    extraKm: 0.25,
+    haftung: 1000
+  }, {
+    name: 'BMW X3',
+    image: 'assets/cars/bmw-x3.webp',
+    prices: [999, 1149, 1259, 1389],
+    extraKm: 0.30,
+    haftung: 1000
+  }, {
+    name: 'BMW X5',
+    image: 'assets/cars/bmw-x5.webp',
+    imgScale: 1.3,
+    prices: [1399, 1549, 1599, 1749],
+    extraKm: 0.50,
+    haftung: 2500
+  }, {
+    name: 'BMW X7',
+    image: 'assets/cars/bmw-x7.webp',
+    imgScale: 1.3,
+    prices: [1799, 1949, 1899, 2049],
+    extraKm: 0.50,
+    haftung: 2500
+  }],
+  Elektro: [{
+    name: 'BMW iX1',
+    image: 'assets/cars/bmw-ix1.webp',
+    imgScale: 1.2,
+    prices: [799, null, null, null],
+    extraKm: null,
+    haftung: null
+  }, {
+    name: 'BMW iX3',
+    image: 'assets/cars/bmw-ix3.webp',
+    imgScale: 1.0,
+    prices: [999, 829, 959, 1089],
+    extraKm: 0.30,
+    haftung: 1000
+  }, {
+    name: 'BMW i5',
+    image: 'assets/cars/bmw-i5.webp',
+    imgScale: 1.0,
+    prices: [1099, null, null, null],
+    extraKm: null,
+    haftung: null
+  }, {
+    name: 'BMW iX',
+    image: 'assets/cars/bmw-ix.webp',
+    imgScale: 1.0,
+    prices: [1699, 1349, 1499, 1649],
+    extraKm: 0.50,
+    haftung: 2500
+  }],
+  'Luxus SUV': [],
+  Cabrio: [{
+    name: 'MINI Cooper',
+    image: 'assets/cars/mini-cooper.webp',
+    imgScale: 1.2,
+    prices: [599, 699, 799, 899],
+    extraKm: 0.25,
+    haftung: 1000
+  }],
+  Transporter: [{
+    name: 'Transporter',
+    image: 'assets/cars/transporter.webp',
+    imgScale: 1.1,
+    prices: [1199, null, null, null],
+    kmPaketLabel: '1.500 km',
+    extraKm: 0.25,
+    haftung: null,
+    mwstInkl: true
+  }, {
+    name: '9-Sitzer',
+    image: 'assets/cars/9-sitzer.webp',
+    imgScale: 1.1,
+    prices: [1199, null, null, null],
+    kmPaketLabel: '1.000 km',
+    extraKm: 0.25,
+    haftung: null,
+    mwstInkl: true
+  }]
+};
+const STANDORTE = [{
+  name: 'Moers Zentrale',
+  address: 'Dr.-Berns-Str. 40\n47441 Moers',
+  phone: '02841 65 63 65 0',
+  email: 'info@move-autovermietung.de',
+  main: true,
+  note: 'Hauptstandort — Kurzzeit & Langzeit'
+}, {
+  name: 'Kleve — Pick-up Station',
+  address: 'Siemensstr. 19 + 26\n47533 Kleve',
+  phone: '02841 65 63 65 0',
+  email: 'info@move-autovermietung.de',
+  main: false,
+  note: 'Kurzzeitmieten'
+}, {
+  name: 'Wesel — Pick-up Station',
+  address: 'Emmericher Str. 5-7\n46485 Wesel',
+  phone: '02841 65 63 65 0',
+  email: 'info@move-autovermietung.de',
+  main: false,
+  note: 'Kurzzeitmieten'
+}, {
+  name: 'Geldern — Pick-up Station',
+  address: 'Martinistr. 52b\n47608 Geldern',
+  phone: '02841 65 63 65 0',
+  email: 'info@move-autovermietung.de',
+  main: false,
+  note: 'Kurzzeitmieten'
+}];
+
+// Preis pro Tag basierend auf Dauer
+function getDailyRate(fahrzeug, days) {
+  if (days <= 2) return fahrzeug.prices[0];
+  if (days <= 5) return fahrzeug.prices[1];
+  if (days <= 7) return fahrzeug.prices[2];
+  return fahrzeug.prices[3];
+}
+
+// Berechnet Anzahl Tage unter Berücksichtigung von Uhrzeiten
+// Regeln:
+// - Gleicher Tag = immer 1 Tag
+// - Über 24h aber ≤ 4h Kulanz pro 24h-Block = bleibt im selben Tag
+// - Bsp: 10:00 → 13:00 nächster Tag = 27h → 1 Tag
+//        10:00 → 15:00 nächster Tag = 29h → 2 Tage
+function calcDays(startDate, startTime, endDate, endTime) {
+  if (!startDate || !endDate) return 0;
+  const start = new Date(`${startDate}T${startTime || '10:00'}`);
+  const end = new Date(`${endDate}T${endTime || '10:00'}`);
+  if (end <= start) return 0;
+  if (startDate === endDate) return 1;
+  const diffHours = (end - start) / 3600000;
+  return Math.max(1, Math.ceil((diffHours - 4) / 24));
+}
+
+// Ist es ein Wochenend-Zeitraum? (Freitag–Montag, max 4 Tage)
+function isWeekendRental(startDate, startTime, endDate, endTime) {
+  if (!startDate || !endDate) return false;
+  const days = calcDays(startDate, startTime, endDate, endTime);
+  if (days < 2 || days > 4) return false;
+  const start = new Date(`${startDate}T${startTime || '10:00'}`);
+  const startDay = start.getDay();
+  return startDay === 5 || startDay === 6;
+}
+
+// Ist es eine Vollwoche? (5–7 Tage ohne WE-Kriterium)
+function isFullWeek(days) {
+  return days >= 5 && days <= 7;
+}
+function calcKurzzeit(fahrzeug, startDate, endDate, startTime, endTime) {
+  if (!startDate || !endDate) return null;
+  const days = calcDays(startDate, startTime, endDate, endTime);
+  if (days <= 0) return null;
+  const weekend = isWeekendRental(startDate, startTime, endDate, endTime);
+  const weekFlat = fahrzeug.wocheFlat && isFullWeek(days);
+  let basePrice, includedKm, priceMode;
+  if (weekend) {
+    basePrice = fahrzeug.weekend;
+    includedKm = fahrzeug.weekendKm || 500;
+    priceMode = 'weekend';
+  } else if (weekFlat) {
+    basePrice = fahrzeug.wocheFlat;
+    includedKm = fahrzeug.wocheKm || 1500;
+    priceMode = 'woche';
+  } else {
+    const dailyRate = getDailyRate(fahrzeug, days);
+    basePrice = dailyRate * days;
+    includedKm = days * 100;
+    priceMode = 'daily';
+  }
+  return {
+    days,
+    basePrice,
+    includedKm,
+    priceMode,
+    pricePerDay: basePrice / days,
+    extraKm: fahrzeug.extraKm,
+    haftung: fahrzeug.haftung,
+    kaution: fahrzeug.kaution,
+    mwstInkl: fahrzeug.mwstInkl
+  };
+}
+function calcLangzeit(fahrzeug, kmPackage, monate) {
+  // Transporter/9-Sitzer haben nur ein km-Paket
+  if (fahrzeug.kmPaketLabel) {
+    const monthlyRate = fahrzeug.prices[0];
+    if (!monthlyRate) return null;
+    return {
+      monate,
+      monthlyRate,
+      total: monthlyRate * monate,
+      kmPackage: fahrzeug.kmPaketLabel,
+      extraKm: fahrzeug.extraKm,
+      haftung: fahrzeug.haftung,
+      mwstInkl: fahrzeug.mwstInkl
+    };
+  }
+  const kmIdx = [1000, 2000, 3000, 4000].indexOf(kmPackage);
+  if (kmIdx === -1) return null;
+  const monthlyRate = fahrzeug.prices[kmIdx];
+  if (!monthlyRate) return null;
+  return {
+    monate,
+    monthlyRate,
+    total: monthlyRate * monate,
+    kmPackage,
+    extraKm: fahrzeug.extraKm,
+    haftung: fahrzeug.haftung,
+    mwstInkl: fahrzeug.mwstInkl
+  };
+}
+Object.assign(window, {
+  KURZZEIT,
+  LANGZEIT,
+  STANDORTE,
+  getDailyRate,
+  isWeekendRental,
+  calcDays,
+  calcKurzzeit,
+  calcLangzeit
+});
+})();

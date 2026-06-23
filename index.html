@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Security headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; script-src 'self' https://www.googletagmanager.com 'unsafe-inline'; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com; form-action 'self' mailto:; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()" />
+
+  <title>Business — Move-Autovermietung GmbH</title>
+  <meta name="description" content="BMW & MINI Mietfahrzeuge für Firmenkunden. Sonderkonditionen, voller Vorsteuerabzug, persönlicher Ansprechpartner — am Niederrhein." />
+  <link rel="stylesheet" href="fonts/inter.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #fff; color: #262626;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f7f7f7; }
+    ::-webkit-scrollbar-thumb { background: #cccccc; }
+
+    /* === NAV === */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(15,20,25,0); height: 76px;
+      display: flex; align-items: center; padding: 0 40px;
+      justify-content: space-between;
+      transition: background 0.35s, height 0.35s, backdrop-filter 0.35s, box-shadow 0.35s;
+    }
+    .nav.scrolled {
+      background: rgba(15,20,25,0.92);
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      height: 64px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 8px 24px -8px rgba(0,0,0,0.4);
+    }
+    .nav-logo img { height: 28px; display: block; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a {
+      color: #fff; font-size: 12px; font-weight: 700;
+      letter-spacing: 1.8px; text-transform: uppercase;
+      position: relative; padding: 6px 0;
+      transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+      background: #1c69d4; transform: scaleX(0); transform-origin: left center;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-links a:hover { color: #1c69d4; }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.active { color: #1c69d4; }
+    .nav-links a.active::after { transform: scaleX(1); }
+    .nav-phone { color: #fff; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; transition: color 0.2s; }
+    .nav-phone:hover { color: #1c69d4; }
+
+    /* === HERO === */
+    .hero {
+      background: #0f1419; min-height: 88vh;
+      display: flex; align-items: center;
+      padding: 160px 40px 120px;
+      position: relative; overflow: hidden;
+    }
+    .hero .grid-lines {
+      position: absolute; inset: 0; opacity: 0.05;
+      background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+    .hero .glow {
+      position: absolute; top: 0; right: -10%;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(28,105,212,0.18) 0%, transparent 65%);
+    }
+    .hero .accent {
+      position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+      background: linear-gradient(180deg, #1c69d4 0%, #0653b6 100%);
+      animation: accentGrow 1.4s 0.1s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+    .hero-inner {
+      max-width: 1280px; margin: 0 auto; width: 100%;
+      position: relative; z-index: 1;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: #1c69d4;
+    }
+    .eyebrow .line { width: 32px; height: 1px; background: #1c69d4; }
+    .hero .eyebrow { margin-bottom: 32px; animation: fadeUp 0.8s 0.15s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+    .hero h1 {
+      font-size: clamp(48px, 6vw, 88px);
+      font-weight: 700; line-height: 1; color: #fff;
+      letter-spacing: -0.025em;
+      max-width: 1000px; margin-bottom: 36px;
+      animation: fadeUp 0.9s 0.3s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+    .hero h1 .accent-text { color: #1c69d4; }
+    .hero p.lead {
+      font-size: 18px; font-weight: 300; line-height: 1.6;
+      color: #bbbbbb; max-width: 640px; margin-bottom: 52px;
+      animation: fadeUp 0.9s 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+    .hero-cta {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      animation: fadeUp 0.9s 0.65s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+    .btn-primary {
+      height: 56px; padding: 0 40px;
+      background: #1c69d4; color: #fff; border: none;
+      font-family: inherit; font-size: 13px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-flex; align-items: center;
+    }
+    .btn-primary:hover { background: #0653b6; transform: translateY(-2px); }
+    .btn-secondary {
+      height: 56px; padding: 0 36px;
+      background: transparent; color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+      font-family: inherit; font-size: 13px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      display: inline-flex; align-items: center;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.04); }
+
+    /* === REVEAL === */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.08s; }
+    .reveal-d2 { transition-delay: 0.16s; }
+    .reveal-d3 { transition-delay: 0.24s; }
+    .reveal-d4 { transition-delay: 0.32s; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes accentGrow { from { transform: scaleY(0); transform-origin: top; } to { transform: scaleY(1); } }
+
+    /* === SECTIONS === */
+    section { padding: 120px 40px; }
+    .container { max-width: 1280px; margin: 0 auto; }
+    .section-title {
+      font-size: clamp(38px, 4.2vw, 60px);
+      font-weight: 700; color: #262626;
+      line-height: 1.02; letter-spacing: -0.025em;
+      margin-top: 16px;
+    }
+    .section-lead {
+      font-size: 17px; font-weight: 300; color: #6b6b6b;
+      line-height: 1.65; max-width: 620px; margin-top: 24px;
+    }
+
+    /* === VORTEILE (Benefits Grid) === */
+    .benefits {
+      background: #fff;
+    }
+    .benefits-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: #ececec;
+      margin-top: 72px;
+      border: 1px solid #ececec;
+    }
+    .benefit {
+      background: #fff;
+      padding: 48px 44px;
+      display: flex; flex-direction: column;
+      transition: background 0.3s;
+    }
+    .benefit:hover { background: #fafafa; }
+    .benefit-num {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      color: #1c69d4; margin-bottom: 24px;
+    }
+    .benefit h3 {
+      font-size: 24px; font-weight: 700; color: #262626;
+      letter-spacing: -0.01em; margin-bottom: 16px; line-height: 1.2;
+    }
+    .benefit p {
+      font-size: 15px; font-weight: 300; color: #6b6b6b;
+      line-height: 1.7;
+    }
+
+    /* === USE CASES (Editorial List) === */
+    .use-cases {
+      background: #fafafa;
+    }
+    .uc-list {
+      list-style: none; padding: 0;
+      margin-top: 64px;
+      border-top: 1px solid #e6e6e6;
+    }
+    .uc-list li {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 32px;
+      padding: 36px 0;
+      border-bottom: 1px solid #e6e6e6;
+      align-items: start;
+    }
+    .uc-number {
+      font-size: 13px; font-weight: 700;
+      color: #1c69d4; letter-spacing: 1.5px;
+      padding-top: 4px;
+    }
+    .uc-content h4 {
+      font-size: 22px; font-weight: 700;
+      color: #262626; margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .uc-content p {
+      font-size: 15px; font-weight: 300;
+      color: #6b6b6b; line-height: 1.7;
+      max-width: 720px;
+    }
+
+    /* === STATEMENT (Dark) === */
+    .statement {
+      background: #0f1419; color: #fff;
+      padding: 140px 40px;
+      position: relative; overflow: hidden;
+    }
+    .statement .glow {
+      position: absolute; top: -10%; left: -5%;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(28,105,212,0.10) 0%, transparent 65%);
+    }
+    .statement-inner {
+      max-width: 900px; margin: 0 auto;
+      position: relative; z-index: 1;
+    }
+    .statement h2 {
+      font-size: clamp(34px, 3.6vw, 48px);
+      font-weight: 300; color: #fff;
+      line-height: 1.3; letter-spacing: -0.015em;
+      margin-top: 32px;
+    }
+    .statement h2 strong { font-weight: 700; color: #fff; }
+
+    /* === CTA === */
+    .cta {
+      background: #0f1419; color: #fff;
+      padding: 120px 40px;
+      position: relative; overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .cta .glow {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 800px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(28,105,212,0.12) 0%, transparent 60%);
+    }
+    .cta-inner {
+      max-width: 960px; margin: 0 auto; text-align: center;
+      position: relative; z-index: 1;
+    }
+    .cta h2 {
+      font-size: clamp(36px, 4vw, 56px);
+      color: #fff; font-weight: 700;
+      line-height: 1.1; letter-spacing: -0.025em;
+      margin-top: 16px; margin-bottom: 24px;
+    }
+    .cta p {
+      font-size: 17px; font-weight: 300; color: #bbbbbb;
+      line-height: 1.65; max-width: 580px;
+      margin: 0 auto 44px;
+    }
+    .cta .actions {
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+    }
+
+    /* === FOOTER === */
+    footer { background: #f7f7f7; border-top: 1px solid #e6e6e6; padding: 56px 40px 32px; }
+    footer .container { display: flex; gap: 48px; justify-content: space-between; flex-wrap: wrap; margin-bottom: 40px; }
+    footer .col { max-width: 320px; }
+    footer .col img { height: 28px; margin-bottom: 20px; display: block; }
+    footer .col p { font-size: 13px; font-weight: 300; color: #6b6b6b; line-height: 1.7; }
+    footer .col-title { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #262626; margin-bottom: 16px; }
+    footer .col-link { display: block; font-size: 13px; font-weight: 300; color: #6b6b6b; margin-bottom: 10px; cursor: pointer; transition: color 0.15s; }
+    footer .col-link:hover { color: #1c69d4; }
+    footer .footer-bottom { max-width: 1280px; margin: 0 auto; border-top: 1px solid #e6e6e6; padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    footer .footer-bottom > div:first-child { font-size: 11px; color: #9a9a9a; }
+    footer .footer-bottom .legal-links { display: flex; gap: 24px; }
+    footer .footer-bottom .legal-links a { font-size: 11px; color: #6b6b6b; transition: color 0.15s; }
+    footer .footer-bottom .legal-links a:hover { color: #1c69d4; }
+
+    @media (max-width: 1100px) {
+      .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 980px) {
+      .benefits-grid { grid-template-columns: 1fr; }
+      .uc-list li { grid-template-columns: 1fr; gap: 8px; }
+      .nav-links { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <a class="nav-logo" href="index.html"><img src="assets/logo.svg" alt="Move Autovermietung" /></a>
+    <div class="nav-links">
+      <a href="index.html#kurzzeit">Kurzzeitmiete</a>
+      <a href="index.html#langzeit">Langzeitmiete</a>
+      <a href="business.html" class="active">Business</a>
+      <a href="index.html#standorte">Standorte</a>
+      <a href="index.html#kontakt">Kontakt</a>
+    </div>
+    <a href="tel:+4902841656365" class="nav-phone">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      02841 65 63 65 0
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="grid-lines"></div>
+    <div class="glow"></div>
+    <div class="accent"></div>
+    <div class="hero-inner">
+      <div class="eyebrow"><span class="line"></span>Für Firmenkunden</div>
+      <h1><span class="accent-text">Flexible</span> Mobilität<br/>für Ihr Unternehmen.</h1>
+      <p class="lead">
+        Firmenfahrzeuge sind ein fixer Kostenfaktor, der viele Unternehmen dauerhaft belastet. Flexible Mobilitätslösungen sind häufig die bessere Antwort auf den firmenspezifischen Dienstwagenbedarf — Kosten fallen nur an, wenn Sie auch wirklich mieten.
+      </p>
+      <div class="hero-cta">
+        <a href="mailto:info@move-autovermietung.de?subject=Anfrage%20Firmenkonditionen" class="btn-primary">Persönliche Beratung</a>
+        <a href="index.html#kurzzeit" class="btn-secondary">Flotte ansehen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="benefits">
+    <div class="container">
+      <div class="reveal">
+        <div class="eyebrow"><span class="line"></span>Die Vorteile einer Mietwagenflotte</div>
+        <h2 class="section-title">Mieten statt besitzen —<br/>was für Sie spricht.</h2>
+        <p class="section-lead">Wir führen gerne gemeinsam mit Ihnen den Vergleich durch, ob Sie auf lange Sicht besser mit unseren Mietwagen oder mit Ihren firmeneigenen Fahrzeugen fahren.</p>
+      </div>
+      <div class="benefits-grid">
+        <div class="benefit reveal reveal-d1">
+          <div class="benefit-num">01</div>
+          <h3>Volle Steuer­vorteile</h3>
+          <p>Mietkosten gelten für Unternehmen und Gewerbetreibende als Betriebsausgaben — mit ausgewiesener MwSt. für den vollen Vorsteuerabzug.</p>
+        </div>
+        <div class="benefit reveal reveal-d2">
+          <div class="benefit-num">02</div>
+          <h3>Keine Kapitalbindung</h3>
+          <p>Keine langfristige Bindung von Eigenkapital, keine teure Fremdfinanzierung. Ihre Liquidität bleibt erhalten.</p>
+        </div>
+        <div class="benefit reveal reveal-d3">
+          <div class="benefit-num">03</div>
+          <h3>Immer aktuelle Modelle</h3>
+          <p>Sie fahren stets neue BMW- und MINI-Fahrzeuge. Modellwechsel jederzeit unkompliziert möglich — ohne Verkaufsstress.</p>
+        </div>
+        <div class="benefit reveal reveal-d4">
+          <div class="benefit-num">04</div>
+          <h3>Kein Wartungs­aufwand</h3>
+          <p>Weder Kosten noch Aufwand für Inspektionen, Reifen, TÜV, Reparaturen oder Unfallschäden — wir kümmern uns um alles.</p>
+        </div>
+        <div class="benefit reveal reveal-d1">
+          <div class="benefit-num">05</div>
+          <h3>Flexible Laufzeiten</h3>
+          <p>Kurze, flexible Vertragslaufzeiten — angepasst an Ihren tatsächlichen Bedarf. Kein Leasing-Korsett über Jahre.</p>
+        </div>
+        <div class="benefit reveal reveal-d2">
+          <div class="benefit-num">06</div>
+          <h3>Keine Neben­kosten</h3>
+          <p>Keine Ausgaben für Kfz-Haftpflichtversicherung und -steuern — alles ist bereits im Mietpreis enthalten.</p>
+        </div>
+        <div class="benefit reveal reveal-d3">
+          <div class="benefit-num">07</div>
+          <h3>Schnelle Hilfe</h3>
+          <p>Bei Unfall, Ausfall oder Reparatur sind wir schnell zur Stelle — mit Ersatzfahrzeug und kurzen Wegen.</p>
+        </div>
+        <div class="benefit reveal reveal-d4">
+          <div class="benefit-num">08</div>
+          <h3>Sofort verfügbar</h3>
+          <p>Schnellverfügbare Fahrzeuge für neue Mitarbeiter, etwa in der Probezeit — ohne langwierige Bestellprozesse.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATEMENT -->
+  <section class="statement">
+    <div class="glow"></div>
+    <div class="statement-inner reveal">
+      <div class="eyebrow"><span class="line"></span>Direkt vom BMW-Partner</div>
+      <h2>Aktuelle Modelle, gepflegt und voll ausgestattet — von einem autorisierten BMW-Partner mit vier Standorten am Niederrhein. <strong>Keine versteckten Kosten, kein Hotline-Karussell.</strong></h2>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="glow"></div>
+    <div class="cta-inner reveal">
+      <div class="eyebrow"><span class="line"></span>Persönlich beraten</div>
+      <h2>Sie möchten eine<br/>persönliche Beratung?</h2>
+      <p>Schildern Sie uns kurz Ihren Bedarf — wir melden uns innerhalb von 24 Stunden mit einem individuellen Angebot.</p>
+      <div class="actions">
+        <a href="mailto:info@move-autovermietung.de?subject=Anfrage%20Firmenkonditionen" class="btn-primary">Anfrage senden</a>
+        <a href="tel:+4902841656365" class="btn-secondary">02841 65 63 65 0</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="col">
+        <a href="index.html"><img src="assets/logo.svg" alt="Move Autovermietung" /></a>
+        <p>Ihr autorisierter BMW- und MINI-Mietpartner am Niederrhein. Kurzzeit, Langzeit, Wochenende — flexibel und transparent.</p>
+      </div>
+      <div>
+        <div class="col-title">Mieten</div>
+        <a class="col-link" href="index.html#kurzzeit">Kurzzeitmiete</a>
+        <a class="col-link" href="index.html#langzeit">Langzeitmiete</a>
+        <a class="col-link" href="business.html">Business</a>
+        <a class="col-link" href="index.html#kurzzeit">Preisrechner</a>
+      </div>
+      <div>
+        <div class="col-title">Standorte</div>
+        <a class="col-link" href="index.html#standorte">Moers</a>
+        <a class="col-link" href="index.html#standorte">Geldern</a>
+        <a class="col-link" href="index.html#standorte">Kleve</a>
+        <a class="col-link" href="index.html#standorte">Wesel</a>
+      </div>
+      <div>
+        <div class="col-title">Kontakt</div>
+        <a class="col-link" href="tel:+4902841656365">02841 65 63 65 0</a>
+        <a class="col-link" href="mailto:info@move-autovermietung.de">info@move-autovermietung.de</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Move-Autovermietung GmbH · Dr.-Berns-Str. 40, 47441 Moers · BMW ist eine eingetragene Marke der Bayerische Motoren Werke AG.</div>
+      <div class="legal-links">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+        <a href="agb.html">AGB</a>
+        <a href="#" onclick="moveCookieSettings();return false;">Cookie-Einstellungen</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    }, { passive: true });
+
+    // Reveal-on-scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
+  <!-- Cookie-Consent & Google Analytics (DSGVO-konform, Opt-in) -->
+  <script src="consent.js"></script>
+</body>
+</html>
